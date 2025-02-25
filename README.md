@@ -7,7 +7,7 @@
 + **演示地址**：[DEMO](https://letere-gzj.github.io/live2d-widget-v3/)
 + **文章教程**：[【Hugo】博客引入moc3类型的live2d模型](https://letere-gzj.github.io/hugo-stack/p/hugo/live2d-moc3/)
 
-![](md/png/sample.png)
+![](public/md/sample.png)
 
 > [!NOTE]
 > + （1）此项目是基于【[stevenjoezhang/live2d-widget](https://github.com/stevenjoezhang/live2d-widget)】项目的二次开发
@@ -184,7 +184,7 @@
 }
 ```
 
-![](./md/png/表情切换.gif)
+![](public/md/表情切换.gif)
 
 + **(3) 配置模型动作与声音**
   + 若模型存在`xxx.motion3.json`文件，可以通过修改`xxx.model3.json`文件，来配置动作以及对应的声音，具体参考 **Resources** 目录下的模型
@@ -212,7 +212,7 @@
 }
 ```
 
-![](./md/png/动作点击.gif)
+![](public/md/动作点击.gif)
 
 ---
 

@@ -1,7 +1,44 @@
-.idea
-.vscode
-Framework/.vscode
-/Demo/dist
-/Demo/node_modules
-/Demo/public
-/Demo/pnpm-lock.yaml
+# 依赖目录
+/node_modules/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 环境文件
+.env
+.env.local
+.env.*.local
+
+# IDE配置
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 依赖目录
+jspm_packages/
+
+# 缓存目录
+.npm
+.eslintcache
+
+# 测试相关
+/coverage/
+.nyc_output
+
+# 自动生成的资源
+/resources/
+!dist/Resources/
+
+# 本地配置文件（如有）
+a.txt
