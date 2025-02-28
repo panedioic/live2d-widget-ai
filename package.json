@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/panedioic/live2d-widget-ai#readme",
   "scripts": {
-    "start": "node copy_resources.js && vite --host",
+    "start": "node copy_resources.js && vite --host --debug",
     "build": "vite build --mode development && esbuild ./src/waifu-tips/waifu-tips.js --bundle --loader:.svg=text --minify --outfile=./dist/assets/waifu-tips.js && esbuild ./src/sdk-v5/main.ts --bundle --minify --outfile=./dist/assets/live2d-sdk.js",
     "build-sdk": "esbuild ./src/sdk-v5/main.ts --bundle --minify --outfile=./dist/assets/live2d-sdk.js",
     "build-tips": "esbuild ./src/waifu-tips/waifu-tips.js --bundle --loader:.svg=text --minify --outfile=./dist/assets/waifu-tips.js",

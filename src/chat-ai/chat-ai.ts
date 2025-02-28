@@ -14,7 +14,7 @@ class ChatAI {
     private apiKey: string;
     private baseURL: string;
     private provider: string;
-    private requestSessionIdBeforeUse;
+    private requestSessionIdBeforeUse: boolean;
     private sessionID: string = '';
     private stream = false;
     private isTosAgreed: boolean = false;
@@ -23,7 +23,19 @@ class ChatAI {
         this.apiKey = config.apiKey;
         this.baseURL = config.baseURL;
         this.provider = config.provider;
-        this.requestSessionIdBeforeUse = config.requireSessionIdBeforeUse
+        // this.requestSessionIdBeforeUse = config.requistSessionIdBeforeUse;
+        this.requestSessionIdBeforeUse = true;
+
+        (async () => {
+            if (this.requestSessionIdBeforeUse) {
+                this.sessionID = await this.createSession();
+                this.setSessionId(this.sessionID);
+                this.requestSessionIdBeforeUse = false;
+            }
+            else {
+                this.sessionID = this.getSessionId();
+            }
+        })();
     }
 
     private async chatMock(
@@ -78,30 +90,20 @@ class ChatAI {
                 this.isTosAgreed = true;
                 return '协议印章已盖上胡萝卜认证戳！(๑•̀ㅂ•́)و✧ 现在可以尽情提问啦喵~';
             }
-            else if (input == '拒绝')
-            {
+            else if (input == '拒绝') {
                 return '兔耳朵遗憾地垂下来了...(´-ω-`) 根据《网络安全法》第十六条，即将关闭对话窗口」 → 强制终止会话';
             }
-            else
-            {
+            else {
                 return '检测到未确认协议！(>_<) 请先输入『同意』或『拒绝』才能激活奈奈的核心程序哟~';
             }
-        }
-
-        if (this.requestSessionIdBeforeUse) {
-            this.requestSessionIdBeforeUse = false;
         }
 
         try {
             // 构造请求体
             // session_id替换为实际上一轮对话的session_id
             const requestBody = {
-                input: {
-                    prompt: input,
-                    session_id: this.sessionID
-                },
-                parameters: {},
-                debug: {}
+                message: input,
+                session_id: this.sessionID
             }
 
             const response = await axios.post(this.baseURL, requestBody, {
@@ -122,6 +124,45 @@ class ChatAI {
         } catch (error) {
             console.error(`Error calling DashScope: ${error}`);
         }
+    }
+
+    async createSession(): Promise<string> {
+        try {
+            const requestBody = {}
+
+            // 这里先写死了，等之后有人想用我的项目的时候再改成可以配置的吧
+            const response = await axios.post('https://blog.y1yan.com/api/api/create_session', requestBody);
+
+            if (response.status === 200 || response.status === 201) {
+                this.sessionID = `${response.data.output.session_id}`;
+                return `${response.data.output.session_id}`;
+            } else {
+                console.log(`request_id=${response.headers['request_id']}`);
+                console.log(`code=${response.status}`);
+                console.log(`message=${response.data.message}`);
+            }
+        } catch (error) {
+            console.error(`Error getting session Id: ${error}`);
+        }
+    }
+
+    // get if user agreed to TOS
+    getTosAgreed() {
+        return localStorage.getItem('tosAgreed') === 'true';
+    }
+
+    setTosAgreed(agreed: boolean) {
+        this.isTosAgreed = agreed;
+        localStorage.setItem('tosAgreed', agreed.toString());
+    }
+
+    getSessionId() {
+        return localStorage.getItem('sessionID') || '';
+    }
+
+    setSessionId(sessionId: string) {
+        this.sessionID = sessionId;
+        localStorage.setItem('sessionID', sessionId);
     }
 }
 

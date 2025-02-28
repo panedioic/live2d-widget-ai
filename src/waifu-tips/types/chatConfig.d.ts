@@ -1,5 +1,5 @@
 interface ChatConfig {
-    requireSessionIdBeforeUse: boolean;
+    requistSessionIdBeforeUse: boolean;
     provider: string;
     baseURL: string;
     apiKey: string;

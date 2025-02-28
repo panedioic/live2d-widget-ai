@@ -7,7 +7,7 @@ export default defineConfig((env: ConfigEnv): UserConfig => {
       port: 5000,
     },
     root: './',
-    base: '/',
+    base: './',
     publicDir: './public',
     resolve: {
       extensions: ['.ts', '.js'],
@@ -15,6 +15,7 @@ export default defineConfig((env: ConfigEnv): UserConfig => {
         '@framework': path.resolve(__dirname, '../Framework/src'),
       }
     },
+    logLevel: 'info',
     // build: {
     //   target: 'modules',
     //   assetsDir: 'assets',
