@@ -1,0 +1,27 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Seina.moc3",
+		"Textures": [
+			"Seina.2048/texture_00.png",
+			"Seina.2048/texture_01.png"
+		],
+		"Physics": "Seina.physics3.json",
+		"DisplayInfo": "Seina.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeROpen",
+				"ParamEyeLOpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}
