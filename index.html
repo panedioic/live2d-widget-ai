@@ -25,6 +25,15 @@
 </head>
 
 <body>
+  <script>
+    window.instructionTrigger = (ins, params) => {
+      console.log('[inst]', {
+        'instruct': ins,
+        'params': params
+      });
+    };
+    window.instructionTrigger('TEST_INSTRUCT', 'TEST_PARAMS');
+  </script>
 
   <script src="autoload.js"></script>
 </body>

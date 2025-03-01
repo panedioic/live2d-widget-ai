@@ -1,24 +1,26 @@
-const cdnPath = '';
+const live2d_path = 'https://fastly.jsdelivr.net/gh/panedioic/live2d-widget-ai@latest/dist/'; // End with '/'
+const live2d_path_debug = ''; // End with '/'
 const config = {
     // 资源路径
     path: {
         homePath: "/",
-        modelPath: cdnPath + "/Resources/",
-        cssPath: cdnPath + "/assets/waifu.css",
-        tipsJsonPath: cdnPath + "/assets/waifu-tips.json",
-        tipsJsPath: cdnPath + "/assets/waifu-tips.js",
-        live2dCorePath: cdnPath + "/Core/live2dcubismcore.js",
-        live2dSdkPath: cdnPath + "/assets/live2d-sdk.js"
+        modelPath: live2d_path + "Resources/",
+        cssPath: live2d_path + "assets/waifu.css",
+        tipsJsonPath: live2d_path + "assets/waifu-tips.json",
+        tipsJsPath: live2d_path + "assets/waifu-tips.js",
+        live2dCorePath: live2d_path + "Core/live2dcubismcore.js",
+        live2dSdkPath: live2d_path + "assets/live2d-sdk.js"
     },
     // 工具栏
     tools: ["hitokoto", "asteroids", "express", "switch-model", "switch-texture", "photo", "info", "quit"],
     // 模型拖拽
     drag: {
-        enable: true,
+        enable: false,
         direction: ["x", "y"]
     },
     // 模型切换(order: 顺序切换，random: 随机切换)
-    switchType: "order"
+    switchType: "order",
+    chatAPI: 'https://blog.y1yan.com/api/api/chat'
 }
 
 const chatConfig = {
@@ -40,10 +42,12 @@ if (screen.width >= 768) {
             homePath: config.path.homePath,
             waifuPath: config.path.tipsJsonPath,
             cdnPath: config.path.modelPath,
+            modelPath: config.path.modelPath,
             tools: config.tools,
             dragEnable: config.drag.enable,
             dragDirection: config.drag.direction,
-            switchType: config.switchType
+            switchType: config.switchType,
+            chatAPI: config.chatAPI
         },
             chatConfig
         );

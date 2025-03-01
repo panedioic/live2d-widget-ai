@@ -5,13 +5,6 @@ import tools from "./tools.js";
 import { showOrHiddenChatWidget, onSendMessage } from "./chat.js";
 import ChatAI from "src/chat-ai/chat-ai.js";
 
-interface Config {
-    cdnPath: string;
-    waifuPath: string;
-    apiPath?: string;
-    tools?: string[];
-}
-
 interface Tools {
     [key: string]: {
         icon: string;
@@ -237,7 +230,7 @@ function loadWidget(config: Config) {
         }
         new Promise<void>((resolve, reject) => {
             // 初始化live2d
-            window.live2d.init(config.cdnPath + "model/")
+            window.live2d.init(config.modelPath + "model/")
             resolve()
         }).then(() => {
             // 加载live2d模型
@@ -249,14 +242,7 @@ function loadWidget(config: Config) {
     })();
 }
 
-function initWidget(config: string | Config, chatConfig: ChatConfig, apiPath?: string) {
-    if (typeof config === 'string') {
-        config = {
-            cdnPath: '', // Add the appropriate cdnPath value here
-            waifuPath: config,
-            apiPath,
-        };
-    }
+function initWidget(config: Config, chatConfig: ChatConfig, apiPath?: string) {
     document.body.insertAdjacentHTML(
         'beforeend',
         `<div id="waifu-toggle">
@@ -289,7 +275,7 @@ function initWidget(config: string | Config, chatConfig: ChatConfig, apiPath?: s
         loadWidget(config as Config);
     }
 
-    window.chatAI = new ChatAI(chatConfig);
+    window.chatAI = new ChatAI(config.chatAPI);
 }
 
 let jsonData: { time: any; } = null;

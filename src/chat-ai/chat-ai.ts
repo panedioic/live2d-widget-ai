@@ -19,10 +19,10 @@ class ChatAI {
     private stream = false;
     private isTosAgreed: boolean = false;
 
-    constructor(config: ChatConfig) {
-        this.apiKey = config.apiKey;
-        this.baseURL = config.baseURL;
-        this.provider = config.provider;
+    constructor(chatAPI: string) {
+        this.apiKey = '';
+        this.baseURL = chatAPI;
+        this.provider = '';
         // this.requestSessionIdBeforeUse = config.requistSessionIdBeforeUse;
         this.requestSessionIdBeforeUse = true;
 
@@ -81,7 +81,7 @@ class ChatAI {
     ): Promise<string> {
         const { onDelta, ...restOptions } = options;
 
-        if (this.provider === 'mock') {
+        if (this.baseURL === 'mock') {
             return this.chatMock(input, restOptions, onDelta);
         }
 
@@ -115,7 +115,8 @@ class ChatAI {
 
             if (response.status === 200) {
                 this.sessionID = `${response.data.output.session_id}`;
-                return `${response.data.output.text}`;
+                return this.instructionExtracter(`${response.data.output.text}`);
+                // return `${response.data.output.text}`;
             } else {
                 console.log(`request_id=${response.headers['request_id']}`);
                 console.log(`code=${response.status}`);
@@ -163,6 +164,30 @@ class ChatAI {
     setSessionId(sessionId: string) {
         this.sessionID = sessionId;
         localStorage.setItem('sessionID', sessionId);
+    }
+
+    instructionExtracter(input: string): string {
+        const regex = /\{\{([^:]+):([^}]+)\}\}/g;
+        const instructions: string[] = [];
+        const params: string[] = [];
+        let modifiedStr = input;
+
+        const matches = [...input.matchAll(regex)];
+        for (const match of matches) {
+            instructions.push(match[1]);
+            params.push(match[2]);
+        }
+
+        modifiedStr = input.replace(regex, '');
+
+        // 新增判断逻辑
+        if (instructions.length > 0) {
+            instructions.forEach((instruction, index) => {
+                window.instructionTrigger(instruction, params[index]);
+            });
+        }
+
+        return modifiedStr;
     }
 }
 
